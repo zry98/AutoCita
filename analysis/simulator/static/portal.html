@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]>
+<html class="ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]>
+<html class="ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]>
+<html class="ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html class="no-js" lang="es"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>
+        pagina - Administraciones Públicas    </title>
+
+    <meta name="description" content="Sede electrónica Secretaría de Estado de Administraciones Públicas - Ministerio de Hacienda y Administraciones Públicas"/>
+    <meta name="author" content=""/>
+    <meta name="keywords" content="Ministerio de Hacienda y Administraciones Públicas, Secretaría de Estado de Administraciones Públicas, MINHAP, Sede electrónica"/>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+
+    <!-- CSS -->
+        <link rel="stylesheet" media="all" href="https://sede.administracionespublicas.gob.es/temas/morfos23/css/styles-sede.css"/>
+        <!--  <link rel="stylesheet" media="all" href="/css/custom.css"/> -->
+    <!--    <link rel="stylesheet" media="print" href="--><!--/css/print.css"/>-->
+
+    
+    
+    <!--SCRIPTS -->
+    <script src="https://sede.administracionespublicas.gob.es/temas/morfos23/js/libs/jquery.js"></script>
+    <script src="https://sede.administracionespublicas.gob.es/temas/morfos23/js/libs/modernizr.js"></script>
+    <script src="https://sede.administracionespublicas.gob.es/temas/morfos23/js/libs/datepicker.js"></script>
+    <script src="https://sede.administracionespublicas.gob.es/temas/morfos23/js/morfos.js"></script>
+    <script src="https://sede.administracionespublicas.gob.es/js/util.js"></script>
+
+
+
+    </head>
+
+<body class="sede ">
+<div id="container" class="mf-container">
+    <noscript>
+    <div id="noJS" class="ac-msg__no-js" role="alert">
+        <p class="mf-paragraph-header">
+            JavaScript desactivado        </p>
+        <p>
+            Es posible que JavaScript no esté activado en su navegador y es necesario para el funcionamiento de este
+                    sitio.            Por favor, actívelo para poder continuar y recargue la página.        </p>
+    </div>
+</noscript>
+<!--[if lte IE 8 ]>
+    <div class="ac-msg__deprecated">
+        <p class="mf-paragraph-header">
+            ¡Navegador no soportado!        </p>
+        <p>
+            Está utilizando un navegador demasiado antiguo que no soporta las tecnologías utilizadas en este sitio.            Desafortunadamente, no podemos dar soporte a todos los navegadores. Por favor, actualícelo a uno más  moderno.        </p>
+        <p>
+
+                Si está utilizando <strong>Internet Explorer 11</strong> asegúrese de que <strong>no tiene activada la Vista de compatibilidad ni el Modo de empresa</strong>.
+        </p>
+    </div>
+<![endif]-->
+    <script type="text/javascript">
+    window.onload = hora;
+    fecha = new Date("27 Oct 2021 16:32:23");
+
+    function hora() {
+        // En IE no está soportado otro timezone que no sea UTC
+        try {
+            var dateString = new Date().toLocaleString("es-ES", {timeZone: "Europe/Madrid"});
+        } catch (e) {
+            var dateString = new Date().toLocaleString("es-ES");
+        }
+        //var dateString = new Date().toLocaleString("es-ES", {timeZone: "Europe/Madrid"});
+        document.getElementById('hora').innerHTML = dateString;
+    }
+
+    setInterval(hora, 1000);
+    $(document).on('click', "#userProfileId li", function () {
+        var rol = $(this).attr('value');
+        $.post("/change-rol/change-rol-for-user/", {rol: rol}, function (data) {
+        }).success(function () {
+            window.location.reload();
+        });
+    });
+</script>
+<header id="header" class="mf-header" role="banner">
+    <div class="mf-header--container">
+        <div class="mf-header--logo">
+            <p class="mf-logo">
+                <span class="mf-logo--link">
+                    <img class="mf-logo--img" src="data:image/png;base64,R0lGODlhlQFLAPcAAOIyANfX2MJHAcQwDvF0Tcfb6/3UyMNomwAAe8nLyvbGAP/cAG5WBImJiABDm7q6u//dAORABsBzAEWLwPmulv/UAOW5APWJaOrq6gBrr5mWlyV7tqelqF6Yx2tra3l5eP/vi/Pz86Z3IXxjAKmslNi1ItXk8JuKJ9GsAP/75qclE8wNEZ5JAf79/eaQAOHr9PzHuP/lAOpUF8CoH7i6xTY2Nz5AQP/cALfQ5f/7ANUAJFlGDv/iAABXpL/ExP/vAMgBI/+/AP/tbfu6qP/EAF1dXauWJv/r5ta4RI221zpon+6+ALEDIZuDAOZVp7Cao/zMAMGcAOHh4QBMbv/ypcSvUP/VANMlI26izfj4+P/TAJ+KRbwoR//RAO9lOW9lKLOOoKB6AOBxBLMRGcyjAKOFAPjMADIpEycnJ5J1AJJiAP/YAP/49v/nN0w8EbOdRZuNYq6DAIg1BgBQoP/08f/SAKyLAP/51tRKFj5tdtcOC//eAMEHHaxOWbfAv3BcHcgFEv/2xJi82qLD3raUANWsANnKAH0STtC3a6dmgop9NO70+W1oQHwGO84ZGP7f1//VALocFv/cMr9ReJdwAOidAJyepbdxcerWANizAP/JAP/TALWzrDkzXe3v8vighqezuodtAfzcbv/+9iQtbAA3kLinZFZbL7WBnABfqP/QALZJJ7FdAP/6+Wh5hZp8AIwVFNcAF+G3APn6/LOip12SgqJKdffQAJWtqwkSeqmrs/J/W6vH4a+VesOYAPX3+URCVQBLngYOLeDNdFtZSY0pMauuq8QQNspfMkI3JffLAPaUdqpzT36r0uTAJMaIA0tKSz8yEv/aAFRfPmReRk53gYWx1P/VANbAT0RaUv7QAAECFrQ+UrWztv/SAM8EIz5lDiQcFBYZK/z8/Lm+z6alk/fjAP/+AKh9hKGcgL+/mb61nPvPAP/aAMAFOrWUALNjDeGHAO6tANvPlDpSRVJQUCUoPzAwMNrQodUHCv/WAExjNrG2wgADdf/SAP///yH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4wLWMwNjEgNjQuMTQwOTQ5LCAyMDEwLzEyLzA3LTEwOjU3OjAxICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ4bXAuZGlkOjQ2NzM4QkI1M0NBN0U2MTE5NDhCQ0ZDMUY4QkU2NzBCIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjYzNjEyOUNEQzZBMzExRTY5MEU3OTMzMEIyREUxMjVEIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjYzNjEyOUNDQzZBMzExRTY5MEU3OTMzMEIyREUxMjVEIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIElsbHVzdHJhdG9yIENTNS4xIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NDY3MzhCQjUzQ0E3RTYxMTk0OEJDRkMxRjhCRTY3MEIiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NDY3MzhCQjUzQ0E3RTYxMTk0OEJDRkMxRjhCRTY3MEIiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4B//79/Pv6+fj39vX08/Lx8O/u7ezr6uno5+bl5OPi4eDf3t3c29rZ2NfW1dTT0tHQz87NzMvKycjHxsXEw8LBwL++vby7urm4t7a1tLOysbCvrq2sq6qpqKempaSjoqGgn56dnJuamZiXlpWUk5KRkI+OjYyLiomIh4aFhIOCgYB/fn18e3p5eHd2dXRzcnFwb25tbGtqaWhnZmVkY2JhYF9e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"
+                         alt="Secretaría de Estado de Administraciones Públicas. Ministerio de Hacienda y Administraciones Públicas. Gobierno de España."/>
+                </span>
+            </p>
+        </div>
+
+
+        <div id="topBar" class="mf-topbar">
+            <button class="mf-topbar-button"><span>Opciones</span></button>
+            <div class="mf-topbar-veil"></div>
+            <div class="mf-topbar--container">
+
+                <ul id="accMenu" class="mf-accesibility-menu">
+                    <li class="mf-accesibility-item"><a id="accGotoContent" class="mf-topbar--item"
+                                                        href="#wrap">Ir al contenido</a></li>
+                    <li class="mf-accesibility-item"><a class="mf-topbar--item"
+                                                        href="/pagina/index/directorio/accesibilidad">Accesibilidad</a>
+                    </li>
+                    <!--<li class="mf-accesibility-item"><a class="mf-topbar--item" href="/accesibilidad/contraste"></a></li>-->
+                </ul>
+
+                <time datetime="2021-10-27 16:32" class="mf-topbar--time mf-topbar--item">
+                    <span id="hora"></span>
+                </time>
+
+                <div id="langMenuDrop" class="mf-lang js-has-submenu">
+                    <p class="mf-lang--selected-title" title="Seleccionar idioma">Bienvenido</p>
+                    <ul id="langMenu" class="mf-lang--menu js-submenu">
+                                                    <li class="mf-lang--item
+                            is-selected"><a title="Castellano"
+                                     href="/pagina/index/directorio/icpplus/language/es_ES"><span lang="es">Bienvenido</span></a>
+                            </li>
+                                                                            <li class="mf-lang--item
+                             "><a title="Catal&aacute;n"
+                                     href="/pagina/index/directorio/icpplus/language/ca_ES"><span lang="ca">Benvingut</span></a>
+                            </li>
+                                                                            <li class="mf-lang--item  "><a title="Gallego"
+                                     href="/pagina/index/directorio/icpplus/language/gl_ES"><span lang="gl">Benvido</span></a>
+                            </li>
+                                                                            <li class="mf-lang--item "><a title="Euskera"
+                                     href="/pagina/index/directorio/icpplus/language/eu_ES"><span lang="eu">Ongi Etorri</span></a>
+                            </li>
+                                                                            <li class="mf-lang--item ">
+                                <a title="Ingl&eacute;s" href="/pagina/index/directorio/icpplus/language/en">
+                                    <span lang="en">Welcome</span>
+                                </a>
+                            </li>
+                                                                            <li class="mf-lang--item "><a title="Franc&eacute;s"
+                                     href="/pagina/index/directorio/icpplus/language/fr"><span lang="fr">Bienvenue</span></a>
+                            </li>
+                                            </ul>
+                </div>
+                                <script type="text/javascript">
+    
+    $(document).ready(function () {
+        //Se deshabilita está opción de momento.
+        $("#idprofilesnameid").click(function () {
+            var spinner = $("#acceda-spinner");
+            $mf.my_dialog.appendDialog({
+                cargando: "",
+                clazz: "mf-dialog open_in_dialog",
+                title: "Actualizar datos de usuario",
+                buttons: "<div><div id='updateUserId'></div><a href='#!' id='updateUserFrontId' class='mf-button primary'>Actualizar</a></div>",
+                is_min: 1,
+                width: 500,
+                height: 300,
+                position_h: "center",
+                position_v: "center",
+                onLoad: spinner.hide(),
+                metod: "post",
+                modal: 1,
+                hide_resize_button: 1,
+                draggable: 0,
+                url: "/mis-datos/get-user-data/"
+            }, false, true);
+        });
+    });
+</script>
+
+<div class="mf-usermenu">
+    <ul class="mf-usermenu--menu">
+                    <li class="mf-usermenu--item mf-profiles">
+                <a class="mf-profiles--title" href="/login">
+                    <span class="mf-profiles--name">
+                        Acceso                    </span>
+                </a>
+            </li>
+            </ul>
+</div>
+
+            </div>
+        </div>
+        <div class="mf-header--content">
+
+            <div class="mf-app-title--container">
+                <h1 class="mf-app-title">Sede electrónica</h1>
+                <p class="mf-app-subtitle">Administraciones Públicas</p>
+            </div>
+
+            <div id="mainMenu" class="mf-appmenu">
+                <nav id="nav" role="menubar">
+                    <div class="mf-appmenu--title">
+                        <button class="mf-appmenu--button"><span>Menú principal</span>
+                        </button>
+                        <div class="mf-appmenu--veil"></div>
+                    </div>
+
+                    <ul class="mf-appmenu--menu" role="navigation">
+                        <li class="mf-appmenu--item mf-appmenu--item__L1"><a
+                                    href="/">Inicio</a></li>
+                        
+                        <li role="menuitem" class="mf-appmenu--item mf-appmenu--item__L1 has-submenu js-has-submenu">
+                            <a href="/procedimientos">
+                                <span>Procedimientos</span>
+                            </a>
+                            <div class="ac-appmenu--submenu-wrap">
+                                <ul role="menu"
+                                    class="mf-appmenu--submenu  cols02 js-submenu">
+                                    <li class='mf-appmenu--submenu-item mf-appmenu--item mf-appmenu--item__L2 ' ><a class='mf-appmenu--submenu-item-icon cat_autorizaciones' href='/procedimientos/index/categoria/42'><p class='mf-appmenu--submenu-item-title'>Autorizaciones Administrativas</p><p class='mf-appmenu--submenu-item-description'>Autorizaciones  tramitadas en Delegaciones y Subdelegaciones</p>                                        </a>
+                                        </li>
+                                        <li class='mf-appmenu--submenu-item mf-appmenu--item mf-appmenu--item__L2 ' ><a class='mf-appmenu--submenu-item-icon cat_cooperacion' href='/procedimientos/index/categoria/45'><p class='mf-appmenu--submenu-item-title'>Cooperación Transfronteriza y Territorial</p>                                        </a>
+                                        </li>
+                                        <li class='mf-appmenu--submenu-item mf-appmenu--item mf-appmenu--item__L2 ' ><a class='mf-appmenu--submenu-item-icon cat_funcionarios' href='/procedimientos/index/categoria/30'><p class='mf-appmenu--submenu-item-title'>Empleados públicos</p>                                        </a>
+                                        </li>
+                                        <li class='mf-appmenu--submenu-item mf-appmenu--item mf-appmenu--item__L2 ' ><a class='mf-appmenu--submenu-item-icon cat_eell' href='/procedimientos/index/categoria/31'><p class='mf-appmenu--submenu-item-title'>Entidades Locales</p>                                        </a>
+                                        </li>
+                                        <li class='mf-appmenu--submenu-item mf-appmenu--item mf-appmenu--item__L2 ' ><a class='mf-appmenu--submenu-item-icon cat_estupefacientes' href='/procedimientos/index/categoria/41'><p class='mf-appmenu--submenu-item-title'>Estupefacientes</p>                                        </a>
+                                        </li>
+                                        <li class='mf-appmenu--submenu-item mf-appmenu--item mf-appmenu--item__L2 ' ><a class='mf-appmenu--submenu-item-icon cat_expropiaciones' href='/procedimientos/index/categoria/37'><p class='mf-appmenu--submenu-item-title'>Expropiaciones</p>                                        </a>
+                                        </li>
+                                        <li class='mf-appmenu--submenu-item mf-appmenu--item mf-appmenu--item__L2 ' ><a class='mf-appmenu--submenu-item-icon cat_extranjeria' href='/procedimientos/index/categoria/34'><p class='mf-appmenu--submenu-item-title'>Extranjería</p>                                        </a>
+                                        </li>
+                                        <li class='mf-appmenu--submenu-item mf-appmenu--item mf-appmenu--item__L2 ' ><a class='mf-appmenu--submenu-item-icon cat_incompatibilidades' href='/procedimientos/index/categoria/39'><p class='mf-appmenu--submenu-item-title'>Régimen de Incompatibilidades</p>                                        </a>
+                                        </li>
+                                        <li class='mf-appmenu--submenu-item mf-appmenu--item mf-appmenu--item__L2 ' ><a class='mf-appmenu--submenu-item-icon cat_sanciones' href='/procedimientos/index/categoria/40'><p class='mf-appmenu--submenu-item-title'>Sanciones Administrativas</p>                                        </a>
+                                        </li>
+                                        <li class='mf-appmenu--submenu-item mf-appmenu--item mf-appmenu--item__L2 ' ><a class='mf-appmenu--submenu-item-icon cat_subvenciones' href='/procedimientos/index/categoria/36'><p class='mf-appmenu--submenu-item-title'>Subvenciones</p>                                        </a>
+                                        </li>
+                                        <li class='mf-appmenu--submenu-item mf-appmenu--item mf-appmenu--item__L2 ' ><a class='mf-appmenu--submenu-item-icon cat_sugerencias' href='/procedimientos/index/categoria/32'><p class='mf-appmenu--submenu-item-title'>Sugerencias y quejas</p>                                        </a>
+                                        </li>
+                                        <li class='mf-appmenu--submenu-item mf-appmenu--item mf-appmenu--item__L2 ' ><a class='mf-appmenu--submenu-item-icon cat_tasas' href='/procedimientos/index/categoria/33'><p class='mf-appmenu--submenu-item-title'>Tasas</p>                                        </a>
+                                        </li>
+                                        <li class='mf-appmenu--submenu-item mf-appmenu--item mf-appmenu--item__L2 ' ><a class='mf-appmenu--submenu-item-icon cat_transportes' href='/procedimientos/index/categoria/48'><p class='mf-appmenu--submenu-item-title'>Transportes</p>                                        </a>
+                                        </li>
+                                        <li class='mf-appmenu--submenu-item mf-appmenu--item mf-appmenu--item__L2 ' ><a class='mf-appmenu--submenu-item-icon cat_derecho' href='/procedimientos/index/categoria/46'><p class='mf-appmenu--submenu-item-title'>Derecho de reunión</p>                                        </a>
+                                        </li>
+                                        <li class='mf-appmenu--submenu-item mf-appmenu--item mf-appmenu--item__L2 ' ><a class='mf-appmenu--submenu-item-icon cat_autorizaciones' href='/procedimientos/index/categoria/49'><p class='mf-appmenu--submenu-item-title'>Otras solicitudes y reclamaciones</p><p class='mf-appmenu--submenu-item-description'>Otras solicitudes y reclamaciones</p>                                        </a>
+                                        </li>
+                                        <li class='mf-appmenu--submenu-item mf-appmenu--item mf-appmenu--item__L2 ' ><a class='mf-appmenu--submenu-item-icon cat_calidad' href='/procedimientos/index/categoria/50'><p class='mf-appmenu--submenu-item-title'>Calidad en las AA.PP.</p><p class='mf-appmenu--submenu-item-description'>Programa de reconocimiento: Premios y Certificaciones</p>                                        </a>
+                                        </li>
+                                                                        </ul>
+                            </div>
+
+                                                    </li>
+                        <li class="mf-appmenu--item mf-appmenu--item__L1"><a
+                                    href="/expedientes/">Mis expedientes</a></li>
+                        <li class="mf-appmenu--item mf-appmenu--item__L1"><a
+                                    href="/mis-notificaciones/index">
+                                Mis notificaciones                            </a></li>
+                                                <li class="mf-appmenu--item mf-appmenu--item__L1"><a
+                                    href="/pagina/index/directorio/ayuda_de_navegacion">Ayuda</a>
+                        </li>
+
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+    <div id="wrap" class="mf-wrapper">
+        <div id="userBoxes">
+                                </div>
+        
+    <main id="mainWindow" class="ac-section__ mf-main">
+
+        <div class="ac-topnav">
+            <nav class="mf-breadcrumb">
+                <ol class="mf-breadcrumb--menu">
+                    <li class="mf-breadcrumb--item"><a href="/">Inicio</a></li>
+                                        <li class="mf-breadcrumb--item"><a href="#">Cita previa de extranjería</a>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="mf-layout--row">
+            <!-- CONTENIDO PRINCIPAL -->
+            <div class="mf-layout--main">
+                <section class="mf-layout--main-content">
+
+                    <div class="mf-window-header">
+                        <h2 class="mf-window-header--title">
+                                                            Cita previa de extranjería                                                    </h2>
+                        <p class="mf-window-header--subtitle">                                Cita previa de extranjería                                                    </p>
+                    </div>
+
+                    <div class="mf-main--content ac-custom-content">
+                        <h3 class="mf-paragraph-header">TÍTULO DEL PROCEDIMIENTO:</h3>
+<p>Cita previa de extranjería</p>
+<h3 class="mf-paragraph-header">SUMARIO:</h3>
+<p>Cita previa para la presentación de autorizaciones en las oficinas de extranjeros.</p>
+<h3 class="mf-paragraph-header">ÓRGANO RESPONSABLE:</h3>
+<p>Cita previa para trámites en oficinas de extranjería: Delegaciones y Subdelegaciones del Gobierno</p>
+<p>Cita previa para trámites ante el Cuerpo Nacional de Policía: Ministerio del Interior (Dirección General de la Policía)</p>
+<h3 class="mf-paragraph-header">CORREO ELECTRONICO DE CONTACTO DE LOS RESPONSABLES DEL CONTENIDO DE LA PAGINA:</h3>
+<p>Para trámites ante oficinas de extranjería : <a title="Oficina de extranjeros de la provincia correspondiente" href="https://www.mptfp.gob.es/portal/delegaciones_gobierno/extranjeria/extranjeria_ddgg.html" target="_blank">Oficina de extranjeros de la provincia correspondiente</a></p>
+<p>Para trámites ante el Cuerpo Nacional de Policía: <a href="https://www.policia.es/documentacion/oficinas/oficinas_extran.html">Dependencias de la Policía Nacional de la provincia correspondiente</a></p>
+<h3 class="mf-paragraph-header">INSTRUCCIONES DEL PROCEDIMIENTO:</h3>
+<p>Cita previa para la presentación de solicitudes en las oficinas de extranjería.</p>
+<ul>
+<li><strong>Autorizaciones de trabajo y residencia por cuenta ajena inicial</strong>: La solicitud debe ser realizada por el empleador o su representante autorizado.</li>
+<li><strong>Autorizaciones de reagrupación familiar</strong>: La solicitud de cita debe ser realizada por el reagrupante o su representante autorizado.</li>
+<li><strong>Autorizaciones de residencia de menores o incapacitados</strong>: La solicitud debe ser realizada por el padre o la madre o el representante legal (no es necesaria la presencia del menor).</li>
+<li><strong>Resto de autorizaciones</strong>: La solicitud de cita debe ser realizada por el ciudadano extranjero o su representante autorizado.</li>
+</ul>
+<h3 class="mf-paragraph-header">REQUISITOS TÉCNICOS DEL PROCEDIMIENTO:</h3>
+<p>Navegador de Internet Microsoft Internet Explorer 7 o superior, Mozilla Firefox 3.</p>
+<fieldset style="border: 6px groove #ccc; background: #F8ECE0;"><strong>En cumplimiento del artículo 13 del Reglamento (UE) 2016/679 general de protección de datos, de 27 de abril de 2016 (RGPD) se informa de que los datos personales facilitados corresponden al tratamiento de datos de la Actividad Cita previa, incluida en el Registro público de Actividades de Tratamiento (RAT) puesto a disposición a través de la web del Ministerio de Política Territorial y Función Pública, en el siguiente enlace web: http://www.mptfp.gob.es/portal/ministerio/proteccion-datos/rat.html para el ejercicio de potestades públicas. <br />Puede ejercitar sus derechos de acceso, rectificación, supresión y portabilidad de sus datos, de limitación y oposición a su tratamiento, así como a no ser objeto de decisiones basadas únicamente en el tratamiento automatizado de sus datos, cuando procedan, a través del siguiente enlace web: http://www.mptfp.gob.es/portal/ministerio/proteccion-datos/ejercicio-derechos.html. El derecho a presentar una reclamación podrá ejercerlo ante la Agencia Española de Protección de Datos.</strong></fieldset>
+<div class="align_center mt30"><form id="formulario" action="/icpplus/" method="post"><input id="submit" class="uppercase button_next" name="submit" type="submit" value="Acceder al Procedimiento" /></form></div>                    </div>
+
+                </section>
+            </div>
+            <!-- CONTEXTO -->
+            <aside class="mf-layout--module-sidebar">
+
+                <section class="mf-layout--module__vertical">
+                    <div class="ac-module__utils">
+    <h2 class="ac-module__title">Utilidades</h2>
+    <ul class="mf-simple-list">
+                                            <li><a class="mf-simple-list--item" href="/pagina/index/directorio/calendario_de_dias_inhabiles">
+                            Calendario de días inhábiles</a>
+                    </li>
+                                                    <li><a class="mf-simple-list--item" href="/pagina/index/directorio/informacion_y_verificacion_de_los_certificados">
+                            Información y verificación de los certificados</a>
+                    </li>
+                                                    <li><a class="mf-simple-list--item" href="/pagina/index/directorio/requisitos_tecnicos">
+                            Requisitos técnicos</a>
+                    </li>
+                                                    <li><a class="mf-simple-list--item" href="/pagina/index/directorio/notificaciones_electronicas">
+                            Notificaciones electrónicas</a>
+                    </li>
+                                                    <li><a class="mf-simple-list--item" href="/pagina/index/directorio/otras_sedes_y_subsedes">
+                            Otras Sedes y Subsedes</a>
+                    </li>
+                                                    <li><a class="mf-simple-list--item" href="/valida" target="_blank">
+                            Validación de documentos electrónicos (CVE)</a>
+                    </li>
+                                                        <li><a class="mf-simple-list--item" href="/pagina/index/directorio/oficinas_clave">
+                            Oficinas de registro - Cl@ve</a>
+                    </li>
+                                                    <li><a class="mf-simple-list--item" href="/pagina/index/directorio/registro_rec">
+                            Registro Electrónico General de la AGE</a>
+                    </li>
+                                                    <li><a class="mf-simple-list--item" href="https://administracion.gob.es/pagFront/espanaAdmon/directorioOrganigramas/quienEsQuien/quienEsQuien.htm" target="_blank">
+                            Consulta de unidades y oficinas en DIR3</a>
+                    </li>
+                                                        <li><a class="mf-simple-list--item" href="https://administracion.gob.es/pagFront/atencionCiudadana/oficinas/encuentraOficina.htm" target="_blank">
+                            Oficinas de registro</a>
+                    </li>
+                        </ul>
+</div>                </section>
+
+                <section class="mf-layout--module__vertical">
+                    <div class="ac-custom-mod__help">
+  <h2 class="ac-custom-mod--title"><a href="/pagina/index/directorio/ayuda_de_navegacion">
+      <span>¿Necesitas ayuda?</span></a></h2>
+  <p class="ac-custom-mod--text">
+      Consulte nuestra sección de preguntas frecuentes, envíe una incidencia a nuestro servicio técnico  </p>
+</div>                </section>
+
+            </aside>
+
+        </div>
+    </main>
+    </
+        <!-- BANNERS -->
+    <div>
+        <aside id="banners" class="ac-banners">
+            <h2 class="visuallyhidden">Enlaces de interés</h2>
+            <ul class="ac-banners-list">
+                                                            <li>
+                            <a class="ac-banners-list--item" href="http://administracion.gob.es" target="_blank">
+                                <img class="ac-banners-list--img"
+                                     src="https://sede.administracionespublicas.gob.es/shared/1/topper/060/images/logo_admon_a_corto-48x48.png"
+                                     alt="" />
+                                <div class="ac-banners-list--text">
+                                    <p class="mf-simple-list--title">administracion.gob.es</p>
+                                    <p class="mf-simple-list--description">Oficinas de atención al ciudadano</p>
+                                </div>
+                            </a>
+                        </li>
+                                                                                <li>
+                            <a class="ac-banners-list--item" href="http://administracionelectronica.gob.es/" target="_blank">
+                                <img class="ac-banners-list--img"
+                                     src="https://sede.administracionespublicas.gob.es/shared/1/topper/administracion/images/pae_48x48.png"
+                                     alt="" />
+                                <div class="ac-banners-list--text">
+                                    <p class="mf-simple-list--title">PAE</p>
+                                    <p class="mf-simple-list--description">Canal de difusión de la Administración Pública que centraliza información sobre administra</p>
+                                </div>
+                            </a>
+                        </li>
+                                                                                <li>
+                            <a class="ac-banners-list--item" href="https://www.aepd.es" target="_blank">
+                                <img class="ac-banners-list--img"
+                                     src="https://sede.administracionespublicas.gob.es/shared/1/topper/agpd/images/aepd_48x48.png"
+                                     alt="" />
+                                <div class="ac-banners-list--text">
+                                    <p class="mf-simple-list--title">AEPD</p>
+                                    <p class="mf-simple-list--description">Agencia Española de protección de datos</p>
+                                </div>
+                            </a>
+                        </li>
+                                                                                <li>
+                            <a class="ac-banners-list--item" href="http://www.boe.es/" target="_blank">
+                                <img class="ac-banners-list--img"
+                                     src="https://sede.administracionespublicas.gob.es/shared/1/topper/boe/images/boe_48x48.png"
+                                     alt="" />
+                                <div class="ac-banners-list--text">
+                                    <p class="mf-simple-list--title">BOE</p>
+                                    <p class="mf-simple-list--description">Acceso al Boletín Oficial del Estado (BOE) y al Boletín Oficial de Registro Mercantil</p>
+                                </div>
+                            </a>
+                        </li>
+                                                                                <li>
+                            <a class="ac-banners-list--item" href="http://www.dnielectronico.es/" target="_blank">
+                                <img class="ac-banners-list--img"
+                                     src="https://sede.administracionespublicas.gob.es/shared/1/topper/dni/images/dnie_48x48.png"
+                                     alt="" />
+                                <div class="ac-banners-list--text">
+                                    <p class="mf-simple-list--title">DNIe</p>
+                                    <p class="mf-simple-list--description">Información sobre el DNI electrónico: guía, autoridades de validación, ayuda...</p>
+                                </div>
+                            </a>
+                        </li>
+                                                                                <li>
+                            <a class="ac-banners-list--item" href="http://www.seat.mpr.gob.es/portal/index.html" target="_blank">
+                                <img class="ac-banners-list--img"
+                                     src="https://sede.administracionespublicas.gob.es/shared/1/topper/seap/images/minhap_48x48.png"
+                                     alt="" />
+                                <div class="ac-banners-list--text">
+                                    <p class="mf-simple-list--title">Mº Política Territorial y Función Pública</p>
+                                    <p class="mf-simple-list--description">Pagina oficial del Ministerio de Política Territorial y Función Pública</p>
+                                </div>
+                            </a>
+                        </li>
+                                                                                <li>
+                            <a class="ac-banners-list--item" href="https://sedeminhap.gob.es/es-ES/Procedimientos/Paginas/Default.aspx?IdProcedimiento=1041" target="_blank">
+                                <img class="ac-banners-list--img"
+                                     src="https://sede.administracionespublicas.gob.es/shared/1/topper/cip/images/cip_48x48.png"
+                                     alt="" />
+                                <div class="ac-banners-list--text">
+                                    <p class="mf-simple-list--title">Gobierno Abierto</p>
+                                    <p class="mf-simple-list--description">Reutiliza la información pública</p>
+                                </div>
+                            </a>
+                        </li>
+                                                                                <li>
+                            <a class="ac-banners-list--item" href="http://www.hacienda.gob.es/es-ES/Paginas/Home.aspx" target="_blank">
+                                <img class="ac-banners-list--img"
+                                     src="https://sede.administracionespublicas.gob.es/shared/1/topper/ministeriohac/images/minhap_48x48.png"
+                                     alt="" />
+                                <div class="ac-banners-list--text">
+                                    <p class="mf-simple-list--title">Mº Hacienda</p>
+                                    <p class="mf-simple-list--description">Página oficial del Ministerio de Hacienda</p>
+                                </div>
+                            </a>
+                        </li>
+                                                </ul>
+        </aside>
+    </div>
+<!-- BANNERS -->    </div>
+    <nav class="mf-sitemap">
+    <h2 class="mf-sitemap--title">Mapa Web</h2>
+
+
+    <ul class="mf-sitemap--list">
+        <li class="mf-sitemap--logo mf-sitemap--block__l1">
+            <p class="mf-sitemap--logo-title">Sede electrónica</p>
+            <p class="mf-sitemap--logo-subtitle">Administraciones Públicas</p>
+        </li>
+        <li class="mf-sitemap--block__l1 has-submenu"><span class="mf-sitemap--item__title"><a
+                    href="/">Inicio</a></span>
+            <ul class="mf-sitemap--block__l2">
+                <li class="mf-sitemap--item__title"><a
+                        href="/expedientes">Mis expedientes</a></li>
+                <li class="mf-sitemap--item__title"><a
+                        href="/pagina/index/directorio/ayuda_de_navegacion">Ayuda</a></li>
+            </ul>
+        </li>
+        <li class="mf-sitemap--block__l1 has-submenu">
+            <span class="mf-sitemap--item__title">PROCEDIMIENTOS</span>
+            <ul class="mf-sitemap--block__l2">
+                                        <li class='mf-sitemap--item'>
+                            <a href='/procedimientos/index/categoria/42'>
+                                Autorizaciones administrativas                            </a>
+                        </li>
+                                            <li class='mf-sitemap--item'>
+                            <a href='/procedimientos/index/categoria/45'>
+                                Cooperación transfronteriza y territorial                            </a>
+                        </li>
+                                            <li class='mf-sitemap--item'>
+                            <a href='/procedimientos/index/categoria/30'>
+                                Empleados públicos                            </a>
+                        </li>
+                                            <li class='mf-sitemap--item'>
+                            <a href='/procedimientos/index/categoria/31'>
+                                Entidades locales                            </a>
+                        </li>
+                                            <li class='mf-sitemap--item'>
+                            <a href='/procedimientos/index/categoria/41'>
+                                Estupefacientes                            </a>
+                        </li>
+                                            <li class='mf-sitemap--item'>
+                            <a href='/pagina/index/directorio/expedientes_expropiaciones'>
+                                Expropiaciones                            </a>
+                        </li>
+                                            <li class='mf-sitemap--item'>
+                            <a href='/procedimientos/index/categoria/34'>
+                                Extranjería                            </a>
+                        </li>
+                                            <li class='mf-sitemap--item'>
+                            <a href='/procedimientos/index/categoria/39'>
+                                Régimen de incompatibilidades                            </a>
+                        </li>
+                                            <li class='mf-sitemap--item'>
+                            <a href='/pagina/index/directorio/expedientes_sanciones_administrativas'>
+                                Sanciones administrativas                            </a>
+                        </li>
+                                            <li class='mf-sitemap--item'>
+                            <a href='/procedimientos/index/categoria/36'>
+                                Subvenciones                            </a>
+                        </li>
+                                            <li class='mf-sitemap--item'>
+                            <a href='/procedimientos/index/categoria/32'>
+                                Sugerencias y quejas                            </a>
+                        </li>
+                                            <li class='mf-sitemap--item'>
+                            <a href='/pagina/index/directorio/expedientes_tasas'>
+                                Tasas                            </a>
+                        </li>
+                                            <li class='mf-sitemap--item'>
+                            <a href='/procedimientos/index/categoria/48'>
+                                Transportes                            </a>
+                        </li>
+                                            <li class='mf-sitemap--item'>
+                            <a href='/pagina/index/directorio/consulta_comunicaciones'>
+                                Derecho de reunión                            </a>
+                        </li>
+                                            <li class='mf-sitemap--item'>
+                            <a href='/procedimientos/index/categoria/49'>
+                                Otras solicitudes y reclamaciones                            </a>
+                        </li>
+                                            <li class='mf-sitemap--item'>
+                            <a href='/procedimientos/index/categoria/50'>
+                                Calidad en las aa.pp.                            </a>
+                        </li>
+                                </ul>
+        </li>
+                    <li class="mf-sitemap--block__l1 has-submenu">
+            <span class="mf-sitemap--item__title">
+                Utilidades            </span>
+                <ul class="mf-sitemap--block__l2">
+                                                                        <li class="mf-sitemap--item"><a href="/pagina/index/directorio/calendario_de_dias_inhabiles"
+                                                            title="Calendario de días inhábiles">
+                                    Calendario de días inhábiles</a>
+                            </li>
+                                                                            <li class="mf-sitemap--item"><a href="/pagina/index/directorio/informacion_y_verificacion_de_los_certificados"
+                                                            title="Información y verificación de los certificados">
+                                    Información y verificación de los certificados</a>
+                            </li>
+                                                                            <li class="mf-sitemap--item"><a href="/pagina/index/directorio/requisitos_tecnicos"
+                                                            title="Requisitos técnicos">
+                                    Requisitos técnicos</a>
+                            </li>
+                                                                            <li class="mf-sitemap--item"><a href="/pagina/index/directorio/notificaciones_electronicas"
+                                                            title="Notificaciones electrónicas">
+                                    Notificaciones electrónicas</a>
+                            </li>
+                                                                            <li class="mf-sitemap--item"><a href="/pagina/index/directorio/otras_sedes_y_subsedes"
+                                                            title="Otras Sedes y Subsedes">
+                                    Otras Sedes y Subsedes</a>
+                            </li>
+                                                                            <li class="mf-sitemap--item"><a href="/valida" target="_blank"
+                                                            title="Validación de documentos electrónicos (CVE)">
+                                    Validación de documentos electrónicos (CVE)</a></li>
+                                                                            <li class="mf-sitemap--item"><a href="/pagina/index/directorio/oficinas_clave"
+                                                            title="Oficinas de registro en el sistema Cl@ve">
+                                    Oficinas de registro - Cl@ve</a>
+                            </li>
+                                                                            <li class="mf-sitemap--item"><a href="/pagina/index/directorio/registro_rec"
+                                                            title="Registro Electrónico General de la AGE">
+                                    Registro Electrónico General de la AGE</a>
+                            </li>
+                                                                            <li class="mf-sitemap--item"><a href="https://administracion.gob.es/pagFront/espanaAdmon/directorioOrganigramas/quienEsQuien/quienEsQuien.htm" target="_blank"
+                                                            title="Consulta de unidades y oficinas en DIR3">
+                                    Consulta de unidades y oficinas en DIR3</a></li>
+                                                                            <li class="mf-sitemap--item"><a href="https://administracion.gob.es/pagFront/atencionCiudadana/oficinas/encuentraOficina.htm" target="_blank"
+                                                            title="Oficinas de registro">
+                                    Oficinas de registro</a></li>
+                        
+                </ul>
+            </li>
+                <li class="mf-sitemap--block__l1 has-submenu">
+            <span class="mf-sitemap--item__title">Enlaces</span>
+            <ul class="mf-sitemap--block__l2">
+                                                                    <li class="mf-sitemap--item">
+                                <a href="/pagina/index/directorio/titularidad_de_la_sede"
+                                   title="Titularidad de la sede">
+                                    Titularidad de la sede                                </a>
+                            </li>
+                                                                                                <li class="mf-sitemap--item">
+                                <a href="/pagina/index/directorio/sugerencias_y_quejas"
+                                   title="Sugerencias y quejas">
+                                    Sugerencias y quejas                                </a>
+                            </li>
+                                                                                                <li class="mf-sitemap--item">
+                                <a href="/pagina/index/directorio/normativa_reguladora_de_la_sede"
+                                   title="Normativa reguladora de la sede">
+                                    Normativa reguladora de la sede                                </a>
+                            </li>
+                                                                                                <li class="mf-sitemap--item">
+                                <a href="/pagina/index/directorio/canales_de_acceso"
+                                   title="Canales de acceso">
+                                    Canales de acceso                                </a>
+                            </li>
+                                                                                                <li class="mf-sitemap--item">
+                                <a href="/pagina/index/directorio/cartas_de_servicio"
+                                   title="Cartas de servicio">
+                                    Cartas de servicio                                </a>
+                            </li>
+                                                        </ul>
+        </li>
+    </ul>
+</nav>
+    <!--  SPINNER   -->
+<div id="acceda-spinner" class="mf-veil timer-veil" style="display: none;">
+    <p class="loading-state">
+        <span>Cargando...</span>
+    </p>
+</div>
+
+<div id="dialog" class="mf-dialog" style="display: none;">
+    <div class="mf-dialog--content"></div>
+    <div class="mf-dialog--buttonbar"></div>
+</div>
+<!-- SPINNER --></div>
+
+<footer class="mf-footer">
+    <div class="mf-footer--container">
+        <ul id="footermenu" class="mf-footer--menu">
+            <li class="mf-footer--menu-item"><a href="/pagina/index/directorio/accesibilidad">Accesibilidad</a></li>
+            <li class="mf-footer--menu-item"><a href="/pagina/index/directorio/avisos_legales">Aviso legal</a></li>
+            <li class="mf-footer--menu-item"><a href="/pagina/index/directorio/contactar">Contacto</a></li>
+        </ul>
+        <p id="copyright" class="mf-footer--copy">&copy; Administraciones Públicas</p>
+        <a href="http://administracionelectronica.gob.es/ctt/acceda" target="_blank">Acceda</a> v.5.4.5        <div class="ac-footer--banners"></div>    </div>
+
+
+
+    <div class="hidden">
+        .4        <span>v.5.4.5</span>
+    </div>
+</footer>
+
+
+<script>
+    var _gaq=[['_setAccount','UA-33444577-1'],['_trackPageview']];
+    (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+
+<a class="mf-anchor_top is-hidden" href="#wrap"><span>Inicio</span></a>
+
+</body>
