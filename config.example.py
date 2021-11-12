@@ -19,5 +19,6 @@ class Info:
     current_expiry_date: str = '09/06/2021'
     address: str = 'Passeig de Sant Joan, 189'
     offices_distances: dict = field(default_factory=dict)
+    desired_office_code: int = -1
     tramite_code: int = 4010
     max_cita_date: str = '06/09/2021'

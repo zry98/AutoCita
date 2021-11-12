@@ -22,7 +22,8 @@ class AutoCita:
     exp: str
     address: str
     office_distances: Dict[str, int]
-    tramite_code: str
+    desired_office_code: int
+    tramite_code: int
     max_cita_date: datetime
 
     sleep_minutes: int
@@ -39,7 +40,7 @@ class AutoCita:
             # TODO: validate check digit
             raise ValueError('N.I.E. format error')
         self.country_code = str(info.country_code)
-        if not self.country_code.isnumeric() or info.country_code not in countries.values():
+        if info.country_code not in countries.values():
             raise CountryNotFoundError
         self.email = info.email.strip().lower()
         self.phone = info.phone.strip()
@@ -52,9 +53,14 @@ class AutoCita:
             raise ValueError('Current card expiry date format error')
         self.address = info.address.strip()
         self.office_distances = info.offices_distances
-        self.tramite_code = str(info.tramite_code)
-        if not self.tramite_code.isnumeric() or info.tramite_code not in tramites.values():
+        if info.desired_office_code == -1 and info.tramite_code == 4036:
+            raise ValueError('Must specify desired office for recogida de tarjeta')
+        if info.desired_office_code not in office_codes.values():
+            raise OfficeNotFoundError
+        self.desired_office_code = info.desired_office_code
+        if info.tramite_code not in tramites.values():
             raise TramiteNotFoundError
+        self.tramite_code = info.tramite_code
         try:
             self.max_cita_date = datetime.strptime(info.max_cita_date.strip(), '%d/%m/%Y')
         except ValueError:
@@ -128,19 +134,25 @@ class AutoCita:
         if error_503_message in self.browser.page_source:
             raise FailedAttempt('Server 503 error')
 
-        # accept cookies
+        # accept cookies to prevent banner from covering elements
         WebDriverWait(self.browser, 30).until(
             EC.element_to_be_clickable((By.ID, 'cookie_action_close_header'))
         ).click()
 
-        # select tramite
-        Select(WebDriverWait(self.browser, 30).until(
-            EC.presence_of_element_located((By.ID, 'tramiteGrupo[0]'))
-        )).select_by_value(self.tramite_code)
+        if self.desired_office_code != -1:
+            # select desired office
+            WebDriverWait(self.browser, 30).until(
+                EC.presence_of_element_located((By.ID, 'sede'))
+            )
+            self.browser.execute_script(f"document.getElementById('sede').value={self.desired_office_code};"
+                                        f"cargaTramites();")
 
+        # select tramite
         WebDriverWait(self.browser, 30).until(
-            EC.element_to_be_clickable((By.ID, 'btnAceptar'))
-        ).click()
+            EC.presence_of_element_located((By.ID, 'tramiteGrupo[0]'))
+        )
+        self.browser.execute_script(f"document.getElementById('tramiteGrupo[0]').value={self.tramite_code};"
+                                    f"document.portadaForm.submit();")
 
     def acInfo(self):
         WebDriverWait(self.browser, 30).until(
@@ -152,28 +164,18 @@ class AutoCita:
             EC.presence_of_element_located((By.ID, 'txtIdCitado'))
         )
         # fill-in the form and submit with JS, because had trouble filling a date into txtFecha (dropping "/")
-        self.browser.execute_script(f"document.getElementById('txtIdCitado').value='{self.nie}';"
-                                    f"document.getElementById('txtDesCitado').value='{self.full_name}';"
-                                    f"document.getElementById('txtPaisNac').value='{self.country_code}';"
-                                    f"document.getElementById('txtFecha').value='{self.exp}';"
-                                    f"envia();")
-
-        # WebDriverWait(self.browser, 30).until(
-        #     EC.presence_of_element_located((By.ID, 'txtIdCitado'))
-        # ).send_keys(self.nie)
-        # WebDriverWait(self.browser, 30).until(
-        #     EC.presence_of_element_located((By.ID, 'txtDesCitado'))
-        # ).send_keys(self.full_name)
-        # Select(WebDriverWait(self.browser, 30).until(
-        #     EC.presence_of_element_located((By.ID, 'txtPaisNac'))
-        # )).select_by_value(self.country)
-        # WebDriverWait(self.browser, 30).until(
-        #     EC.presence_of_element_located((By.ID, 'txtFecha'))
-        # ).send_keys(self.exp)
-        #
-        # WebDriverWait(self.browser, 30).until(
-        #     EC.element_to_be_clickable((By.ID, 'btnEnviar'))
-        # ).click()
+        if self.tramite_code == 4010:  # toma de huellas
+            self.browser.execute_script(f"document.getElementById('txtIdCitado').value='{self.nie}';"
+                                        f"document.getElementById('txtDesCitado').value='{self.full_name}';"
+                                        f"document.getElementById('txtPaisNac').value='{self.country_code}';"
+                                        f"document.getElementById('txtFecha').value='{self.exp}';"
+                                        f"document.citadoForm.submit();")
+        elif self.tramite_code == 4036:  # recogida de tarjeta
+            self.browser.execute_script(f"document.getElementById('txtIdCitado').value='{self.nie}';"
+                                        f"document.getElementById('txtDesCitado').value='{self.full_name}';"
+                                        f"document.citadoForm.submit();")
+        else:
+            raise UnsupportedTramiteError
 
     def acValidarEntrada(self):
         WebDriverWait(self.browser, 30).until(
@@ -185,21 +187,26 @@ class AutoCita:
             self.tried_offices.clear()
             raise FailedAttempt('No available cita')
 
-        nearest_office_id = self.get_nearest_office_id(self.browser.page_source)
-        if nearest_office_id == '':
-            self.tried_offices.clear()
-            raise FailedAttempt('No available cita')
+        if self.tramite_code == 4010:  # toma de huellas
+            nearest_office_id = self.get_nearest_office_id(self.browser.page_source)
+            if nearest_office_id == '':
+                self.tried_offices.clear()
+                raise FailedAttempt('No available cita')
 
-        self.tried_offices.add(nearest_office_id)
+            self.tried_offices.add(nearest_office_id)
 
-        # select office
-        Select(WebDriverWait(self.browser, 30).until(
-            EC.presence_of_element_located((By.ID, 'idSede'))
-        )).select_by_value(nearest_office_id)
+            # select office
+            Select(WebDriverWait(self.browser, 30).until(
+                EC.presence_of_element_located((By.ID, 'idSede'))
+            )).select_by_value(nearest_office_id)
 
-        WebDriverWait(self.browser, 30).until(
-            EC.element_to_be_clickable((By.ID, 'btnSiguiente'))
-        ).click()
+            WebDriverWait(self.browser, 30).until(
+                EC.element_to_be_clickable((By.ID, 'btnSiguiente'))
+            ).click()
+        elif self.tramite_code == 4036:  # recogida de tarjeta
+            return  # go to acVerFormulario
+        else:
+            raise UnsupportedTramiteError
 
     def acVerFormulario(self):
         WebDriverWait(self.browser, 30).until(
@@ -208,21 +215,8 @@ class AutoCita:
         self.browser.execute_script(f"document.getElementById('txtTelefonoCitado').value='{self.phone}';"
                                     f"document.getElementById('emailUNO').value='{self.email}';"
                                     f"document.getElementById('emailDOS').value='{self.email}';"
-                                    f"enviar();")
-
-        # WebDriverWait(self.browser, 30).until(
-        #     EC.presence_of_element_located((By.ID, 'txtTelefonoCitado'))
-        # ).send_keys(self.phone)
-        # WebDriverWait(self.browser, 30).until(
-        #     EC.presence_of_element_located((By.ID, 'emailUNO'))
-        # ).send_keys(self.email)
-        # WebDriverWait(self.browser, 30).until(
-        #     EC.presence_of_element_located((By.ID, 'emailDOS'))
-        # ).send_keys(self.email)
-        #
-        # WebDriverWait(self.browser, 30).until(
-        #     EC.element_to_be_clickable((By.ID, 'btnSiguiente'))
-        # ).click()
+                                    f"document.procedimientos.action='acOfertarCita';"
+                                    f"document.procedimientos.submit();")
 
     def acOfertarCita(self):
         if no_cita_message in self.browser.page_source:
@@ -235,22 +229,10 @@ class AutoCita:
             EC.element_to_be_clickable((By.ID, f'cita{cita_id}'))
         ).click()
 
-        # try:
-        #     # reCAPTCHA_site_key = reCAPTCHA_site_key_pattern.findall(self.r.page_source)[0]
-        #     reCAPTCHA_site_key = WebDriverWait(self.browser, 30).until(
-        #         EC.presence_of_element_located((By.ID, 'reCAPTCHA_site_key'))
-        #     ).get_attribute('value')
-        #     print(f'reCAPTCHA site key: {reCAPTCHA_site_key}')
-        # # except IndexError:
-        # except TimeoutException:
-        #     raise Exception('Can\'t extract reCAPTCHA site key')
-
         try:
             WebDriverWait(self.browser, 30).until(
                 lambda driver: driver.find_element(By.ID, 'g-recaptcha-response').get_attribute('value') != ''
             )
-            # reCAPTCHA_response = self.browser.find_element(By.ID, 'g-recaptcha-response').get_attribute('value')
-            # print(f'reCAPTCHA response: {reCAPTCHA_response}')
         except TimeoutException:
             raise Exception('Can\'t get reCAPTCHA response')
 
@@ -375,6 +357,9 @@ def main(app: App, info: Info):
     except CountryNotFoundError:
         print('[ERROR] Country not found, available country codes:\n' + '\n'.join(
             [f'{k}: {v}' for k, v in countries.items()]))
+    except OfficeNotFoundError:
+        print('[ERROR] Office not found, available office codes:\n' + '\n'.join(
+            [f'{k}: {v}' for k, v in office_codes.items()]))
     except TramiteNotFoundError:
         print('[ERROR] Tramite not found, available tramite codes:\n' + '\n'.join(
             [f'{k}: {v}' for k, v in tramites.items()]))

@@ -1,7 +1,7 @@
 import re
 
 base_url = 'https://sede.administracionespublicas.gob.es'
-#base_url = 'http://127.0.0.1:5000'  # for local simulation
+# base_url = 'http://127.0.0.1:5000'  # for local simulation
 no_cita_message = 'En este momento no hay citas disponibles.'
 error_503_message = 'ERROR [503]'
 nie_pattern = re.compile(r'^[XYZ]\d{7,8}[A-Z]$')
@@ -287,7 +287,15 @@ class CountryNotFoundError(Exception):
     pass
 
 
+class OfficeNotFoundError(Exception):
+    pass
+
+
 class TramiteNotFoundError(Exception):
+    pass
+
+
+class UnsupportedTramiteError(Exception):
     pass
 
 
